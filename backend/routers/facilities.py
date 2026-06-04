@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from models.schemas import FacilityQuery, FacilityResponse, Facility
+from models.schema import FacilityQuery, FacilityResponse, Facility
 
 router = APIRouter(prefix="/api/facilities", tags=["Facilities"])
 

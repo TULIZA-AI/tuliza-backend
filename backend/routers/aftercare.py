@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from models.schemas import AftercareInput, AftercareOutput
+from models.schema import AftercareInput, AftercareOutput
 
 router = APIRouter(prefix="/api/aftercare", tags=["Aftercare"])
 

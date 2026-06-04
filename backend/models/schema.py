@@ -1,22 +1,22 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 from enum import Enum
 
 
 class LossType(str, Enum):
-    miscarriage  = "Miscarriage"
-    abortion     = "Abortion"
-    still_birth  = "Still Birth"
-    refusal      = "Refusal"
+    miscarriage = "Miscarriage"
+    abortion    = "Abortion"
+    still_birth = "Still Birth"
+    refusal     = "Refusal"
 
 
 class PlaceOfLoss(str, Enum):
-    within_dsa_slum    = "Within same DSA Slum"
-    nairobi_non_slum   = "Nairobi non-slum"
-    non_dsa_slum       = "Non-DSA Nairobi slum"
-    other_dsa_slum     = "Other DSA Nairobi slum"
-    other_urban        = "Other Urban area of Kenya"
-    rural_kenya        = "Rural Kenya"
+    within_dsa_slum  = "Within same DSA Slum"
+    nairobi_non_slum = "Nairobi non-slum"
+    non_dsa_slum     = "Non-DSA Nairobi slum"
+    other_dsa_slum   = "Other DSA Nairobi slum"
+    other_urban      = "Other Urban area of Kenya"
+    rural_kenya      = "Rural Kenya"
 
 
 class SlumStatus(str, Enum):
@@ -32,13 +32,16 @@ class RiskLevel(str, Enum):
 
 # ── Triage ────────────────────────────────────────────────────────────────────
 class TriageInput(BaseModel):
-    type_of_loss:    LossType    = Field(..., example="Miscarriage")
-    gestational_age: float       = Field(..., ge=0.5, le=9.0, example=3.0)
-    place_of_loss:   PlaceOfLoss = Field(..., example="Within same DSA Slum")
-    slum_resident:   SlumStatus  = Field(..., example="Slum")
+    model_config = ConfigDict(use_enum_values=True)
 
-    class Config:
-        use_enum_values = True
+    type_of_loss:    LossType    = Field(
+        ..., json_schema_extra={"example": "Miscarriage"})
+    gestational_age: float       = Field(
+        ..., ge=0.5, le=9.0, json_schema_extra={"example": 3.0})
+    place_of_loss:   PlaceOfLoss = Field(
+        ..., json_schema_extra={"example": "Within same DSA Slum"})
+    slum_resident:   SlumStatus  = Field(
+        ..., json_schema_extra={"example": "Slum"})
 
 
 class TriageOutput(BaseModel):
@@ -53,25 +56,24 @@ class TriageOutput(BaseModel):
 
 # ── Facilities ────────────────────────────────────────────────────────────────
 class Facility(BaseModel):
-    id:             int
-    name:           str
-    type:           str
-    level:          str
-    location:       str
-    distance_km:    float
-    pac_capacity:   str        # "High" / "Medium" / "Low"
-    phone:          str
-    services:       list[str]
-    stock_status:   str        # "Available" / "Limited" / "Out"
+    id:           int
+    name:         str
+    type:         str
+    level:        str
+    location:     str
+    distance_km:  float
+    pac_capacity: str
+    phone:        str
+    services:     list[str]
+    stock_status: str
 
 
 class FacilityQuery(BaseModel):
+    model_config = ConfigDict(use_enum_values=True)
+
     location:     str
     risk_level:   RiskLevel
     slum_context: bool = True
-
-    class Config:
-        use_enum_values = True
 
 
 class FacilityResponse(BaseModel):
@@ -82,20 +84,18 @@ class FacilityResponse(BaseModel):
 
 # ── Aftercare ─────────────────────────────────────────────────────────────────
 class AftercareInput(BaseModel):
+    model_config = ConfigDict(use_enum_values=True)
+
     loss_type:       LossType
     gestational_age: float
     risk_level:      RiskLevel
-    language:        str = Field(default="en", example="en")  # en / sw
-
-    class Config:
-        use_enum_values = True
+    language:        str = Field(default="en")
 
 
 class AftercareOutput(BaseModel):
-    language:         str
+    language:          str
     emotional_support: str
     physical_guidance: str
-    warning_signs:    list[str]
-    follow_up:        str
-    resources:        list[str]
-
+    warning_signs:     list[str]
+    follow_up:         str
+    resources:         list[str]

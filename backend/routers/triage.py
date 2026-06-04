@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from models.schemas import TriageInput, TriageOutput
+from models.schema import TriageInput, TriageOutput
 from services.triage_service import predict_risk
 
 router = APIRouter(prefix="/api/triage", tags=["Triage"])

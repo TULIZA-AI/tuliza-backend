@@ -2,9 +2,11 @@ import pickle
 import pandas as pd
 from pathlib import Path
 
-MODEL_DIR = Path(__file__).parent.parent / "tuliza_model"
+MODEL_DIR = Path(__file__).resolve().parent.parent / "tuliza_model"
 
-
+print (f"Looking for model at:{MODEL_DIR}")
+print(f"Path exists : {MODEL_DIR.exists()}")
+print(f"Files Found: {list(MODEL_DIR.glob('*')) if MODEL_DIR.exists()else'DIRECTORY NOT FOUND'}")
 def _load_artifacts():
     with open(MODEL_DIR / "triage_pipeline.pkl", "rb") as f:
         pipeline = pickle.load(f)
@@ -37,6 +39,7 @@ def predict_risk(
 
     df = pd.DataFrame([{
         "q4_05": gestational_age,
+        "nopreg":0,
         "q4_04": type_of_loss,
         "q4_09": place_of_loss,
         "slum":  slum_resident,
