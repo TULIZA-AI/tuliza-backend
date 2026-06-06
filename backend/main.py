@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import triage, facilities, aftercare
 from services.triage_service import get_model_info
+from routers import triage, facilities, aftercare, nlp   
 
 app = FastAPI(
     title="Tuliza AI API",
@@ -29,6 +30,7 @@ app.add_middleware(
 app.include_router(triage.router)
 app.include_router(facilities.router)
 app.include_router(aftercare.router)
+app.include_router(nlp.router)  
 
 
 @app.get("/", tags=["Health"])
