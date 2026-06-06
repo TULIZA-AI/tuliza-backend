@@ -1,7 +1,7 @@
 #  Tuliza AI — Backend
 
 > AI-powered early pregnancy loss care navigation API  
-> Built for the **AI for Reproductive Health in Africa Innovation Challenge** · APHRC 2025  
+> Built for the **AI for Reproductive Health in Africa Innovation Challenge** · APHRC 2026 
 > Track 1 — Access to Comprehensive Early Pregnancy Loss Care
 
 [![Python](https://img.shields.io/badge/Python-3.11-blue)](https://python.org)
